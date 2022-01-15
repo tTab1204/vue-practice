@@ -1,10 +1,14 @@
 <template>
   <div>
     Board
-    <div>bid: {{ bid }}</div>
-    <hr />
-    <router-link :to="`/b/${bid}/c/1`">Card 1</router-link>
-    <router-link :to="`/b/${bid}/c/2`">Card 2</router-link>
+    <div v-if="loading">loading board...</div>
+    <div v-else>
+      <div>bid: {{ bid }}</div>
+      <router-link :to="`/b/${bid}/c/1`">Card 1</router-link>
+      <router-link :to="`/b/${bid}/c/2`">Card 2</router-link>
+      <hr />
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -13,13 +17,21 @@ export default {
   data() {
     return {
       bid: 0,
+      loading: false,
     };
   },
   created() {
-    // this.$route 객체를 통해서 라우터 주소 정보를 받아볼 수 있다.
-    // 이게 되는 이유는 index.js의 Vue.router() 함수를 통해
-    // 미들웨어 식으로 추가해줬기 때문임.
-    this.bid = this.$route.params.bid;
+    this.fetchData();
+  },
+
+  methods: {
+    fetchData() {
+      this.loading = true;
+      setTimeout(() => {
+        this.bid = this.$route.params.bid;
+        this.loading = false;
+      }, 500);
+    },
   },
 };
 </script>
