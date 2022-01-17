@@ -1,6 +1,7 @@
 import axios from 'axios';
 import router from '@/router';
 import { ROUTES } from '@/router/routes';
+import { AUTH } from '@/constants';
 
 const METHODS = {
   GET: 'get',
@@ -11,6 +12,7 @@ const METHODS = {
 
 const APIS = {
   BOARDS: '/boards',
+  LOGIN: '/login',
 };
 
 const DOMAIN = 'http://localhost:3000';
@@ -33,8 +35,18 @@ const request = (method, url, data) => {
     });
 };
 
+export const setAuthInHeader = (token) => {
+  axios.defaults.headers.common[AUTH] = token ? `Bearer ${token}` : null;
+};
+
 export const board = {
   fetch() {
     return request(METHODS.GET, APIS.BOARDS);
+  },
+};
+
+export const auth = {
+  login(email, password) {
+    return request(METHODS.POST, APIS.LOGIN, { email, password });
   },
 };

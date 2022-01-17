@@ -9,16 +9,25 @@ import { ROUTES } from './routes';
 
 Vue.use(VueRouter);
 
+const requireAuth = (to, from, next) => {
+  const isAuth = localStorage.getItem('token');
+  const loginPath = `/login?rPath=${encodeURIComponent(to.path)}`;
+  isAuth ? next() : next(loginPath);
+};
+
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    { path: ROUTES.HOME, component: Home },
+    { path: ROUTES.HOME, component: Home, beforeEnter: requireAuth },
     { path: ROUTES.LOGIN, component: Login },
     {
       path: ROUTES.BOARDS,
       component: Board,
-      children: [{ path: ROUTES.CARDS, component: Card }],
+      beforeEnter: requireAuth,
+      children: [
+        { path: ROUTES.CARDS, component: Card, beforeEnter: requireAuth },
+      ],
     },
     { path: ROUTES.ALL, component: NotFound },
   ],
