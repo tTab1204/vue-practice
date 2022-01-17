@@ -1,25 +1,26 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Home from "@/components/Home.vue";
-import Login from "@/components/Login.vue";
-import Board from "@/components/Board.vue";
-import NotFound from "@/components/NotFound.vue";
-import Card from "@/components/Card.vue";
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Home from '@/components/Home.vue';
+import Login from '@/components/Login.vue';
+import Board from '@/components/Board.vue';
+import NotFound from '@/components/NotFound.vue';
+import Card from '@/components/Card.vue';
+import { ROUTES } from './routes';
 
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    { path: "/", component: Home },
-    { path: "/login", component: Login },
+    { path: ROUTES.HOME, component: Home },
+    { path: ROUTES.LOGIN, component: Login },
     {
-      path: "/b/:bid",
+      path: ROUTES.BOARDS,
       component: Board,
-      children: [{ path: "c/:cid", component: Card }],
+      children: [{ path: ROUTES.CARDS, component: Card }],
     },
-    { path: "*", component: NotFound },
+    { path: ROUTES.ALL, component: NotFound },
   ],
 });
 
