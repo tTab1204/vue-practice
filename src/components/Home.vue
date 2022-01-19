@@ -19,19 +19,29 @@
         >
       </div>
     </div>
-    <!-- <add-board v-if="isAddBoard"></add-board> -->
+    <AddBoard
+      v-if="isAddBoard"
+      @close="isAddBoard = false"
+      @submit="onAddBoard"
+    />
   </div>
 </template>
 
 <script>
 import { board } from '@/apis';
+import AddBoard from './AddBoard.vue';
 
 export default {
+  components: {
+    AddBoard,
+  },
+
   data() {
     return {
       loading: false,
       boards: [],
       error: '',
+      isAddBoard: false,
     };
   },
 
@@ -57,7 +67,15 @@ export default {
       this.loading = false;
     },
     addBoard() {
-      console.log('addBoard!!');
+      this.isAddBoard = true;
+    },
+    async onAddBoard(title) {
+      try {
+        await board.create(title);
+        await this.fetchData();
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

@@ -43,6 +43,9 @@ export const board = {
   fetch() {
     return request(METHODS.GET, APIS.BOARDS);
   },
+  create(title) {
+    return request(METHODS.POST, APIS.BOARDS, { title });
+  },
 };
 
 export const auth = {
