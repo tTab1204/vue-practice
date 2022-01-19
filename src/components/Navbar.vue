@@ -5,7 +5,7 @@
     </div>
     <div class="header-user">
       <!-- 제출 이벤트가 페이지를 다시 로드 하지 않습니다 -->
-      <a v-if="isAuthenicated" href="" @click.prevent="logout">Logout</a>
+      <a v-if="isAuth" href="" @click.prevent="logout">Logout</a>
       <!-- 상수로 만드는 법은? -->
       <router-link v-else to="/login">Login</router-link>
     </div>
@@ -13,19 +13,18 @@
 </template>
 
 <script>
-import { TOKEN } from '@/constants';
-import { setAuthInHeader } from '../apis';
 import { ROUTES } from '../router/routes';
+import { mapGetters, mapMutations } from 'vuex';
+
 export default {
   computed: {
-    isAuthenicated() {
-      return !!localStorage.getItem(TOKEN);
-    },
+    ...mapGetters(['isAuth']),
   },
   methods: {
+    ...mapMutations(['LOGOUT']),
+
     logout() {
-      delete localStorage.token;
-      setAuthInHeader(null);
+      this.LOGOUT();
       this.$router.push(ROUTES.LOGIN);
     },
   },

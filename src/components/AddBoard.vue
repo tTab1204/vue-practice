@@ -37,7 +37,7 @@
 
 <script>
 import Modal from './Modal.vue';
-import { mapMutations } from 'vuex';
+import { mapActions, mapMutations } from 'vuex';
 
 export default {
   components: { Modal },
@@ -60,10 +60,13 @@ export default {
 
   methods: {
     ...mapMutations(['SET_IS_ADD_BOARD']),
+    ...mapActions(['ADD_BOARD', 'FETCH_BOARDS']),
 
     addBoard() {
       this.SET_IS_ADD_BOARD(false);
-      this.$emit('submit', this.inputBoardTitle);
+      this.ADD_BOARD({ title: this.inputBoardTitle }).then(() => {
+        this.FETCH_BOARDS();
+      });
     },
   },
 };

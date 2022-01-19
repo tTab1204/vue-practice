@@ -36,8 +36,7 @@
 </template>
 
 <script>
-import { auth, setAuthInHeader } from '@/apis';
-import { TOKEN } from '@/constants';
+import { mapActions } from 'vuex';
 import { ROUTES } from '../router/routes';
 
 export default {
@@ -60,15 +59,17 @@ export default {
   },
 
   methods: {
+    ...mapActions(['LOGIN']),
+
     async onSubmit() {
-      try {
-        const data = await auth.login(this.email, this.password);
-        localStorage.setItem(TOKEN, data.accessToken);
-        setAuthInHeader(data.accessToken);
-        this.$router.push(this.rPath);
-      } catch (error) {
-        this.error = error;
-      }
+      await this.LOGIN({ email: this.email, password: this.password })
+        .then((res) => {
+          console.log(res);
+          this.$router.push(this.rPath);
+        })
+        .catch((err) => {
+          this.error = err.data.error;
+        });
     },
   },
 };

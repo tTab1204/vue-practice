@@ -17,7 +17,7 @@ const APIS = {
 
 const DOMAIN = 'http://localhost:3000';
 const UNAUTHORIZED = 401;
-const onUNAUTHORIZED = () => {
+const onUnAutorhized = () => {
   router.push(ROUTES.LOGIN);
 };
 
@@ -30,7 +30,7 @@ const request = (method, url, data) => {
     .then((res) => res.data)
     .catch((result) => {
       const { status } = result.response;
-      if (status === UNAUTHORIZED) return onUNAUTHORIZED();
+      if (status === UNAUTHORIZED) return onUnAutorhized();
       throw Error(result);
     });
 };
