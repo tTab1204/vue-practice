@@ -14,7 +14,10 @@
           <div class="modal-footer">
             <slot name="footer">
               default footer
-              <button class="modal-default-button" @click="$emit('close')">
+              <button
+                class="modal-default-button"
+                @click="SET_IS_ADD_BOARD(false)"
+              >
                 OK
               </button>
             </slot>
@@ -27,6 +30,7 @@
 
 <script>
 import { checkClickOutside } from '@/utils/checkClickOutside';
+import { mapMutations } from 'vuex';
 
 export default {
   directives: {
@@ -34,8 +38,9 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['SET_IS_ADD_BOARD']),
     onClickOutside() {
-      this.$emit('close');
+      this.SET_IS_ADD_BOARD(false);
     },
   },
 };
