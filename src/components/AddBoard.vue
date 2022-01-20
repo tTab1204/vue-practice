@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import Modal from './Modal.vue';
+import Modal from './Modal/Modal.vue';
 import { mapActions, mapMutations } from 'vuex';
 
 export default {

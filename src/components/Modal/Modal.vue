@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { checkClickOutside } from '@/utils/checkClickOutside';
+import { checkClickOutside } from '../../utils/checkClickOutside';
 import { mapMutations } from 'vuex';
 
 export default {
